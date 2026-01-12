@@ -1,55 +1,150 @@
-# SecureShare-AES : Système de Partage de Fichiers Sécurisé
+# SecureShare-AES
 
-## Présentation du Projet
-Ce projet a été réalisé dans le cadre d'un stage pratique en cybersécurité. Il s'agit d'une application web permettant de stocker et de partager des fichiers de manière confidentielle.
+## Système de Partage de Fichiers Sécurisé
 
-**Le concept :** Aucun fichier n'est stocké en clair sur le serveur. Chaque document est chiffré avant l'écriture sur le disque et n'est déchiffré qu'au moment du téléchargement par l'utilisateur.
+SecureShare-AES est une application web développée dans le cadre d’un stage pratique en cybersécurité. Elle permet de stocker et de partager des fichiers de manière confidentielle en garantissant qu’aucune donnée n’est jamais conservée en clair sur le serveur.
 
-## Stack Technique
-- **Backend :** Python 3.x avec le framework **Flask**.
-- **Cryptographie :** Bibliothèque **PyCryptodome**.
-- **Algorithme :** AES-128 (Advanced Encryption Standard) en mode **CBC** (Cipher Block Chaining).
-- **Frontend :** HTML5/CSS3 avec un design "Retro Terminal" (Matrix style).
+Le principe fondamental du projet est le **chiffrement côté serveur avant stockage** : chaque fichier est chiffré avant son écriture sur le disque et n’est déchiffré qu’au moment du téléchargement par l’utilisateur.
 
-## Architecture de Sécurité
+---
 
-### 1. Processus de Chiffrement
-- **Padding :** Utilisation du standard **PKCS7** pour aligner les données sur des blocs de 16 octets.
-- **Vecteur d'Initialisation (IV) :** Un IV unique est généré aléatoirement pour chaque opération de chiffrement afin d'éviter que deux fichiers identiques n'aient le même contenu chiffré.
-- **Stockage :** L'IV est concaténé au début du fichier chiffré pour être récupéré lors du déchiffrement.
+## Objectifs du projet
 
-### 2. Confidentialité au Repos
-Même si un attaquant accède physiquement au serveur ou au dossier `fichiers_finaux/`, il ne pourra pas lire les données car elles apparaissent sous forme de données binaires aléatoires avec l'extension `.locked`.
+* Mettre en œuvre un mécanisme de chiffrement symétrique robuste pour la protection des fichiers.
+* Garantir la confidentialité des données au repos.
+* Illustrer des concepts clés de la cryptographie appliquée dans une application web.
+* Fournir une base pédagogique pour des améliorations futures (authentification, gestion des clés, intégrité).
 
-## Installation et Lancement
+---
 
-1. **Cloner le dépôt :**
-   ```bash
-   git clone https://github.com/TON_PSEUDO/secure-share.git
-   cd secure-share
-Installer les dépendances :
-code
-Bash
-pip install flask pycryptodome
-Lancer le serveur :
-code
-Bash
-python app.py
-Accès : Ouvrez votre navigateur sur http://127.0.0.1:5000
-Structure du Projet
-code
-Text
-.
-├── app.py              # Logique du serveur et fonctions de cryptographie
-├── fichiers_finaux/    # Dossier de stockage des fichiers chiffrés (exclu du commit)
+## Stack technique
+
+### Backend
+
+* Python 3.x
+* Flask (framework web)
+
+### Cryptographie
+
+* PyCryptodome
+* AES-128 (Advanced Encryption Standard)
+* Mode CBC (Cipher Block Chaining)
+
+### Frontend
+
+* HTML5 / CSS3
+* Design inspiré d’un style « Retro Terminal » (Matrix-like)
+
+---
+
+## Architecture de sécurité
+
+### 1. Processus de chiffrement
+
+* **Algorithme** : AES-128 en mode CBC.
+* **Padding** : PKCS#7 afin d’aligner les données sur des blocs de 16 octets.
+* **Vecteur d’initialisation (IV)** :
+
+  * Généré aléatoirement pour chaque opération de chiffrement.
+  * Garantit que deux fichiers identiques ne produisent jamais le même texte chiffré.
+* **Stockage de l’IV** :
+
+  * L’IV est concaténé au début du fichier chiffré afin d’être récupéré lors du déchiffrement.
+
+### 2. Confidentialité au repos
+
+Même en cas d’accès non autorisé au serveur ou au dossier de stockage (`fichiers_finaux/`), les fichiers restent illisibles. Les données sont stockées sous forme binaire chiffrée, avec l’extension `.locked`.
+
+Aucun fichier n’est conservé en clair sur le disque.
+
+---
+
+## Structure du projet
+
+```
+secure-share/
+│
+├── app.py              # Logique principale du serveur Flask
+├── fichiers_finaux/    # Dossier de stockage des fichiers chiffrés (exclu du dépôt)
 ├── templates/
-│   └── index.html      # Interface utilisateur (Vert/Noir)
+│   └── index.html      # Interface utilisateur
 ├── .gitignore          # Exclusion des fichiers sensibles
-└── README.md           # Documentation du projet
-Limitations & Améliorations Futures (Roadmap)
-Gestion des clés : Actuellement, la clé est codée en dur. Une amélioration majeure serait d'utiliser un coffre-fort de clés (Key Vault).
-Authentification : Ajouter un système de login pour que chaque utilisateur possède sa propre clé de chiffrement.
-Intégrité : Passer du mode CBC au mode GCM pour ajouter une vérification d'intégrité (HMAC).
-Auteur
-BARIKI Wilson - Stagiaire en Cybersécurité
+├── README.md           # Documentation du projet
+```
+
+---
+
+## Installation
+
+### Prérequis
+
+* Python 3.x installé
+* pip (gestionnaire de paquets Python)
+
+### Étapes
+
+1. Cloner le dépôt :
+
+```bash
+git clone https://github.com/TON_PSEUDO/secure-share.git
+cd secure-share
+```
+
+2. Installer les dépendances :
+
+```bash
+pip install flask pycryptodome
+```
+
+3. Lancer le serveur :
+
+```bash
+python app.py
+```
+
+4. Accéder à l’application via un navigateur :
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## Utilisation
+
+* L’utilisateur sélectionne un fichier via l’interface web.
+* Le fichier est chiffré côté serveur avant d’être enregistré sur le disque.
+* Lors du téléchargement, le fichier est déchiffré dynamiquement puis transmis à l’utilisateur.
+
+---
+
+## Limitations connues
+
+* La clé de chiffrement est actuellement codée en dur dans l’application.
+* Absence de système d’authentification et de gestion des utilisateurs.
+* Pas de mécanisme de vérification d’intégrité des fichiers.
+* Le mode CBC ne fournit pas d’authentification des données.
+
+---
+
+## Pistes d’amélioration
+
+* Gestion sécurisée des clés via un coffre-fort (ex. HashiCorp Vault).
+* Authentification des utilisateurs avec des clés de chiffrement distinctes.
+* Passage à AES-GCM pour assurer à la fois confidentialité et intégrité.
+* Ajout d’un HMAC pour la vérification d’intégrité des fichiers.
+* Journalisation et audit des accès.
+
+---
+
+## Avertissement de sécurité
+
+Ce projet est à vocation pédagogique. Il ne doit pas être utilisé tel quel en production sans une revue de sécurité approfondie et la mise en place des améliorations mentionnées.
+
+---
+
+## Auteur
+
+BARIKI Wilson
+Stagiaire en cybersécurité
 Projet réalisé en janvier 2024
