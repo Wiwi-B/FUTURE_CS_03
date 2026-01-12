@@ -147,4 +147,4 @@ Ce projet est à vocation pédagogique. Il ne doit pas être utilisé tel quel e
 
 BARIKI Wilson
 Stagiaire en cybersécurité
-Projet réalisé en janvier 2024
+Projet réalisé en janvier 2026
