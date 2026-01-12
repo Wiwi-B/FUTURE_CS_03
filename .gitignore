@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Environnement virtuel
+venv/
+.env
+
+# DONNÉES SENSIBLES 
+fichiers_finaux/
+master.key
