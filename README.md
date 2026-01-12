@@ -1,5 +1,3 @@
-# FUTURE_CS_03
-
 # SecureShare-AES : Système de Partage de Fichiers Sécurisé
 
 ## Présentation du Projet
@@ -26,25 +24,32 @@ Même si un attaquant accède physiquement au serveur ou au dossier `fichiers_fi
 ## Installation et Lancement
 
 1. **Cloner le dépôt :**
+   ```bash
    git clone https://github.com/TON_PSEUDO/secure-share.git
    cd secure-share
 Installer les dépendances :
+code
+Bash
 pip install flask pycryptodome
 Lancer le serveur :
+code
+Bash
 python app.py
 Accès : Ouvrez votre navigateur sur http://127.0.0.1:5000
 Structure du Projet
+code
+Text
 .
- app.py              # Logique du serveur et fonctions de cryptographie
- fichiers_finaux/    # Dossier de stockage des fichiers chiffrés (exclu du commit)
- templates/
-    index.html      # Interface utilisateur (Vert/Noir)
- .gitignore          # Exclusion des fichiers sensibles
- README.md           # Documentation du projet
+├── app.py              # Logique du serveur et fonctions de cryptographie
+├── fichiers_finaux/    # Dossier de stockage des fichiers chiffrés (exclu du commit)
+├── templates/
+│   └── index.html      # Interface utilisateur (Vert/Noir)
+├── .gitignore          # Exclusion des fichiers sensibles
+└── README.md           # Documentation du projet
 Limitations & Améliorations Futures (Roadmap)
 Gestion des clés : Actuellement, la clé est codée en dur. Une amélioration majeure serait d'utiliser un coffre-fort de clés (Key Vault).
 Authentification : Ajouter un système de login pour que chaque utilisateur possède sa propre clé de chiffrement.
 Intégrité : Passer du mode CBC au mode GCM pour ajouter une vérification d'intégrité (HMAC).
 Auteur
 BARIKI Wilson - Stagiaire en Cybersécurité
-Projet réalisé en janvier 2026
+Projet réalisé en janvier 2024
