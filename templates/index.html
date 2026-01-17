@@ -1,1 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> CyberVault - Secure Share</title>
+    <!-- Importation d'une police "Monospace" pour le look code -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --matrix-green: #00ff41;
+            --dark-bg: #0d0208;
+            --card-bg: #151515;
+            --border-glow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--matrix-green);
+            font-family: 'Fira Code', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--matrix-green);
+            margin-bottom: 40px;
+            text-shadow: 0 0 8px var(--matrix-green);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--border-glow);
+        }
+
+        .card-title {
+            color: white;
+            border-left: 4px solid var(--matrix-green);
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        /* Style des entrées de fichier */
+        input[type="file"] {
+            background: #000;
+            color: var(--matrix-green);
+            border: 1px dashed var(--matrix-green);
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        /* Boutons personnalisés */
+        .btn {
+            background: transparent;
+            color: var(--matrix-green);
+            border: 1px solid var(--matrix-green);
+            padding: 10px 20px;
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: var(--matrix-green);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--matrix-green);
+        }
+
+        /* Liste des fichiers */
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            transition: background 0.2s;
+        }
+
+        .file-item:hover {
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        .file-name {
+            color: #ccc;
+        }
+
+        .file-name::before {
+            content: "> ";
+            color: var(--matrix-green);
+        }
+
+        /* Alertes Flash */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+            text-align: center;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: var(--matrix-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><span class="status-dot"></span>CYBERVAULT v1.0</h1>
+        <p>Système de transfert chiffré AES-256</p>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert">SYSTEM_MSG: {{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="card">
+        <div class="card-title">IMPORT_ENCRYPT_PROTOCOL</div>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit" class="btn">Exécuter le chiffrement</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-title">SECURE_STORAGE_FILES</div>
+        <ul class="file-list">
+            {% for file in files %}
+            <li class="file-item">
+                <span class="file-name">{{ file }}</span>
+                <a href="/download/{{ file }}" class="btn" style="font-size: 0.8rem;">Déchiffrer</a>
+            </li>
+            {% endfor %}
+            {% if not files %}
+            <li class="file-item" style="color: #666;">[ RÉPERTOIRE VIDE ]</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <footer style="text-align: center; margin-top: 50px; font-size: 0.7rem; color: #444;">
+        &copy; 2023 - Tâche de cybersécurité 3 - Système de partage de fichiers sécurisé - Future Interns
+    </footer>
+</div>
+
+</body>
+</html> 
+
+
 
